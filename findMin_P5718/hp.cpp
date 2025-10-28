@@ -78,6 +78,7 @@ string hp_Min(string s1, string s2){
             swap(s1,s2);
             mark = '-';
         }
+    
         unsigned long a1_len = s1.length(),a2_len = s2.length();
         vector <int> a1(a1_len + 1, 0),
                      a2(a2_len + 1, 0),
@@ -139,7 +140,76 @@ string hp_Min(string s1, string s2){
 
 //高精度乘法
 string hp_Muit(string s1, string s2){
-    vector<i>
-    char mark;
     
+    //判断s1，s2的大小并进行交换
+    if(s1.size() < s2.size() ||
+       (s1.size() == s2.size() && (s1<s2))){
+        swap(s1,s2);
+    }
+    
+    //分别判断s1，s2的符号（+，-）
+    unsigned short s1_Mark, s2_Mark;
+    if(s1[1] == '-') s1_Mark = 1;
+        else s1_Mark = 0;
+    if(s2[1] == '-') s2_Mark = 1;
+        else s2_Mark = 0;
+    
+    //初始化数组
+    vector <int> a1(s1.size() + 1,0),
+                 a2(s2.size() + 1,0),
+                 temp((s1.size() - s1_Mark)+(s2.size() - s2_Mark),0);
+    char Mark = '-';
+    string result;
+    int carry = 0;//用于承载进位
+    
+    //判断结果的符号
+    if((s1[1] == '-' && s2[1] == '-')
+       or  (s1[1] != '-' && s2[1] != '-')){
+        char Mark = '+';
+    }
+    
+    //逆序并将string转换并输入数组
+    // 逆序字符串（s1,s2mark是为了防止录入符号！）
+    reverse(s1.begin()+s1_Mark, s1.end());
+    reverse(s2.begin()+s2_Mark, s2.end());
+    
+    // 将string转换为int类型并存进数组
+    if(s1_Mark == 1){
+        unsigned long long i = 1;
+        for (unsigned long long j=0; i < s1.size(); i++,j++) {
+            a1[j] = s1[i] - '0';
+        }
+    }
+    else {
+        for (unsigned long long i = 0; i < s1.size(); i++) {
+            a1[i] = s1[i] - '0';
+        }
+    }
+    if(s1_Mark == 1){
+        unsigned long long i = 1;
+        for (unsigned long long j=0; i < s2.size(); i++,j++) {
+            a2[j] = s1[i] - '0';
+        }
+    }
+    else{
+        for (unsigned long long i = 0; i < s2.size(); i++) {
+            a2[i] = s1[i] - '0';
+        }
+    }
+    
+    //计算的主体部分
+    
+    for (unsigned long long j=0; j < a2.size(); j++){
+        carry = 0;
+        for (unsigned long long i=0; i < a1.size()+1; i++){
+            temp[i+j] += ((a2[j] * a1[i]) % 10) + carry;
+            carry = (int)((a2[j] * a1[i])/10);
+        }
+    }
+    
+    //逆序，消零，输出
+    
+    
+    //
+    return result;
 }
